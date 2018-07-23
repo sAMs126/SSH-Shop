@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="cn.itcast.shop.category.entity.Category" table="category">
+		<id name="cid">
+			<generator class="native"/>
+		</id>
+		
+		<property name="cname"/>
+		<!-- 配置一级分类和二级分类的关联关系 -->
+		<!-- name: 实体类中配置的对象名	key: 外键名	class: 对象的实体类全路径	 -->
+        <!-- 关联查询的时候，查询二级分类默认是延迟加载的, 
+        		将lazy属性改成 false, 
+        		将两条sql语句整合为一条:fetch="join":生成一条sql语句
+        -->
+        <!-- set集合查询出来的结果无序的,使用order-by属性按照某种顺序进行排列 
+        		若要配置为list集合，hibernate会在数据后多加一列序号用于排序
+        -->
+        <!-- 配置二级分类的集合 -->
+		<set name="categorySeconds" cascade="delete" lazy="false" fetch="join" order-by="csid">
+			<key column="cid"/>
+			<one-to-many class="cn.itcast.shop.categorysecond.entity.CategorySecond"/>
+		</set>
+	</class>
+</hibernate-mapping>
